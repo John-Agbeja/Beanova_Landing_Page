@@ -1,5 +1,6 @@
-export default function App() {
+import { useState } from "react";
 
+export default function App() {
   const products = [
     {
       title: "Premium Locust Beans",
@@ -19,7 +20,41 @@ export default function App() {
       image: "/images/beans3.jpg",
     },
   ];
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    product: "",
+    quantity: "",
+    address: "",
+    note: "",
+  },
+  );
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
+  await fetch("https://script.google.com/macros/s/AKfycbyJxD0gRRywJgYZTEYFd_QE8jelKiDlZtuA4YIUsTC6HCJ1s1AmRIfOqjMBc9G03qLUNQ/exec", {
+  method: "POST",
+  mode: "no-cors",
+  body: JSON.stringify(formData),
+});
+  const message = `
+Hi Beanova Manager,
+
+I want to place a Beanova Order.
+
+Full Name: ${formData.fullName}
+Phone Number: ${formData.phone}
+Product: ${formData.product}
+Quantity: ${formData.quantity}
+Delivery Address: ${formData.address}
+Additional Note: ${formData.note}
+  `;
+
+  const whatsappUrl =
+    `https://wa.me/2349113486251?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappUrl, "_blank");
+};
   return (
     <div className="min-h-screen bg-[#5c4033] text-white font-sans">
 
@@ -156,18 +191,24 @@ export default function App() {
               Fill the form below and Beanova will contact you directly to confirm your order.
             </p>
           </div>
-
-          <form className="bg-white p-8 rounded-3xl shadow-2xl space-y-6 border border-gray-200 text-black">
+           <form
+  onSubmit={handleSubmit}
+  className="bg-white p-8 rounded-3xl shadow-2xl space-y-6 border border-gray-200 text-black"
+>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block mb-2 font-semibold text-gray-700">
                   Full Name
                 </label>
                 <input
-                  type="text"
-                  placeholder="Enter your name"
-                  className="w-full p-4 rounded-2xl border border-gray-300 bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700"
-                />
+  type="text"
+  placeholder="Enter your name"
+  value={formData.fullName}
+  onChange={(e) =>
+    setFormData({ ...formData, fullName: e.target.value })
+  }
+  className="w-full p-4 rounded-2xl border border-gray-300 bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700"
+/>
               </div>
 
               <div>
@@ -175,10 +216,14 @@ export default function App() {
                   Phone Number
                 </label>
                 <input
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  className="w-full p-4 rounded-2xl border border-gray-300 bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700"
-                />
+  type="tel"
+  placeholder="Enter your phone number"
+  value={formData.phone}
+  onChange={(e) =>
+    setFormData({ ...formData, phone: e.target.value })
+  }
+  className="w-full p-4 rounded-2xl border border-gray-300 bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700"
+/>
               </div>
             </div>
 
@@ -187,12 +232,18 @@ export default function App() {
                 <label className="block mb-2 font-semibold text-gray-700">
                   Product Type
                 </label>
-                <select className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700">
-                  <option>Select Product</option>
-                  <option>Beanova Single Pack</option>
-                  <option>Packaged Beanova Mix(Dozens)</option>
-                  <option>Bulk Orders</option>
-                </select>
+                <select
+  value={formData.product}
+  onChange={(e) =>
+    setFormData({ ...formData, product: e.target.value })
+  }
+  className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
+>
+  <option>Select Product</option>
+  <option>Beanova Single Pack</option>
+  <option>Packaged Beanova Mix(Dozens)</option>
+  <option>Bulk Orders</option>
+</select>
               </div>
 
               <div>
@@ -200,10 +251,14 @@ export default function App() {
                   Quantity
                 </label>
                 <input
-                  type="text"
-                  placeholder="E.g 2 Paint Buckets"
-                  className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
-                />
+  type="text"
+  placeholder="E.g 2 Paint Buckets"
+  value={formData.quantity}
+  onChange={(e) =>
+    setFormData({ ...formData, quantity: e.target.value })
+  }
+  className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
+/>
               </div>
             </div>
 
@@ -211,11 +266,15 @@ export default function App() {
               <label className="block mb-2 font-semibold text-gray-700">
                 Delivery Address
               </label>
-              <textarea
-                rows="4"
-                placeholder="Enter your delivery address"
-                className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
-              ></textarea>
+             <textarea
+  rows="4"
+  placeholder="Enter your delivery address"
+  value={formData.address}
+  onChange={(e) =>
+    setFormData({ ...formData, address: e.target.value })
+  }
+  className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
+></textarea>
             </div>
             
             <div>
@@ -223,10 +282,14 @@ export default function App() {
                 Additional Note
               </label>
               <textarea
-                rows="3"
-                placeholder="Optional message"
-                className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
-              ></textarea>
+  rows="3"
+  placeholder="Optional message"
+  value={formData.note}
+  onChange={(e) =>
+    setFormData({ ...formData, note: e.target.value })
+  }
+  className="w-full p-4 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700"
+></textarea>
             </div>
             <button
               type="submit"
