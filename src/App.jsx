@@ -11,7 +11,7 @@ export default function App() {
     {
       title: "Packaged Beanova Mix",
       desc: "Neatly packaged for homes, stores, and restaurants.",
-      image: "/images/beans2.jpg",
+      image: "/images/bean22.jpg",
     },
 
     {
@@ -96,7 +96,7 @@ Additional Note: ${formData.note}
           <div>
 
             <img
-              src="/images/hero.jpg"
+              src="/images/hero1.png"
               alt="Beanova"
               className="rounded-3xl w-full h-[450px] object-cover shadow-2xl"
             />
